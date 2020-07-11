@@ -68,7 +68,9 @@ Route::prefix('home')->group(function () {
 
 
 
-    Route::resource('elonlars', 'ElonlarController');
+    Route::resource('elonlars', 'ElonlarController')->names([
+        'elonlar.index' => 'elonlar.index2',
+    ]);
 
     Route::resource('fanlars', 'FanlarController');
 
