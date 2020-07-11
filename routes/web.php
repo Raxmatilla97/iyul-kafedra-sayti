@@ -30,7 +30,8 @@ Route::group(['prefix' => '/'], function () {
     Route::get('/', 'IndexController@index')->name('site.index');
 
         Route::group(['prefix' => 'yangiliklar'], function () {
-            Route::get('{slug}', 'IndexController@yangilikShow')->where('slug', '[A-Za-z0-9-_]+')->name('index.yangiliklar');
+            Route::get('/', 'IndexController@yangiliklar')->name('yangiliklar');
+            Route::get('/{slug}', 'IndexController@yangilikShow')->where('slug', '[A-Za-z0-9-_]+')->name('index.yangiliklar');
 
 
         });
@@ -68,9 +69,7 @@ Route::prefix('home')->group(function () {
 
 
 
-    Route::resource('elonlars', 'ElonlarController')->names([
-        'elonlar.index' => 'elonlar.index2',
-    ]);
+    Route::resource('elonlars', 'ElonlarController');
 
     Route::resource('fanlars', 'FanlarController');
 

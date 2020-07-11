@@ -56,7 +56,7 @@ class IndexController extends Controller
         return view('makets.front.index', compact('counter', 'video', 'elonlar', 'sliders', 'cards', 'firstBanner', 'yangiliklar', 'yangilikoptions', 'gallereya'));
     }
 
-   
+
 
 
       /**
@@ -201,6 +201,32 @@ class IndexController extends Controller
 
             'elonlar'
             ));
+
+    }
+
+    public function yangilikBolimlari($slug){
+
+        $yangilikBolimlar = YangiliklarBolimlari::where('slug',$slug)->all();
+
+        dd($yangilikBolimlar);
+
+
+
+
+    }
+
+
+    public function yangiliklar(){
+
+
+
+        $yangiliklar = Yangiliklar::where('active', '1')->latest()->orderBy("created_at", 'desc')->paginate(4);
+
+        //dd($yangilikBolimlar);
+
+        return view('frontend.yangiliklar.list', compact('yangiliklar'))->with('i',(request()->input('page', 1) -1) *5);
+
+
 
     }
 }
