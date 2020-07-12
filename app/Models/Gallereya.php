@@ -28,7 +28,7 @@ class Gallereya extends Model
     use SoftDeletes;
 
     public $table = 'gallereya';
-    
+
     const CREATED_AT = 'created_at';
     const UPDATED_AT = 'updated_at';
 
@@ -47,7 +47,12 @@ class Gallereya extends Model
         'addres',
         'tell',
         'user_id',
-      
+        'category_id',
+        'familya_ism',
+        'count',
+
+
+
     ];
 
     /**
@@ -66,7 +71,12 @@ class Gallereya extends Model
         'addres' => 'string',
         'tell' => 'string',
         'user_id' => 'integer',
-       
+        'category_id' => 'integer',
+        'familya_ism' => 'string',
+        'count' => 'integer',
+
+
+
     ];
 
     /**
@@ -82,7 +92,12 @@ class Gallereya extends Model
         'desc' => 'required',
         'addres' => 'required',
         'tell' => 'required',
-        'user_id' => 'required'
+        'user_id' => 'required',
+        'category_id' => 'required',
+        'familya_ism' => 'required',
+
+
+
     ];
 
     /**
@@ -99,5 +114,9 @@ class Gallereya extends Model
     public function user()
     {
         return $this->belongsTo(\App\User::class, 'user_id');
+    }
+
+    public function cate(){
+        return $this->belongsTo(\App\Models\GallereyaCategory::class, 'category_id');
     }
 }

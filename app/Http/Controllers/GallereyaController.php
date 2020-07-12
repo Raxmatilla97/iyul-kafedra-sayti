@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\CreateGallereyaRequest;
 use App\Http\Requests\UpdateGallereyaRequest;
+use App\Models\GallereyaCategory;
 use App\Repositories\GallereyaRepository;
 use App\Http\Controllers\AppBaseController;
 use Illuminate\Http\Request;
@@ -34,11 +35,11 @@ class GallereyaController extends AppBaseController
         //$gallereyas = $this->gallereyaRepository->all();
 
         $gallereyas = Gallereya::latest()->orderBy("created_at", 'desc')->paginate(10);
-        
+
 
         return view('gallereyas.index', compact('gallereyas'))->with('i',(request()->input('page', 1) -1) *5);
 
-/* 
+/*
         return view('gallereyas.index')
             ->with('gallereyas', $gallereyas); */
     }
@@ -50,7 +51,8 @@ class GallereyaController extends AppBaseController
      */
     public function create()
     {
-        return view('gallereyas.create');
+        $category = GallereyaCategory::pluck('title', 'id');
+        return view('gallereyas.create', compact('category'));
     }
 
     /**
@@ -100,6 +102,7 @@ class GallereyaController extends AppBaseController
      */
     public function edit($id)
     {
+        $category = GallereyaCategory::pluck('title', 'id');
         $gallereya = $this->gallereyaRepository->find($id);
 
         if (empty($gallereya)) {
@@ -108,7 +111,7 @@ class GallereyaController extends AppBaseController
             return redirect(route('gallereyas.index'));
         }
 
-        return view('gallereyas.edit')->with('gallereya', $gallereya);
+        return view('gallereyas.edit', compact('category'))->with('gallereya', $gallereya);
     }
 
     /**

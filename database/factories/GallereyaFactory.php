@@ -9,7 +9,7 @@ use App\Models\GallereyaCategory;
 $factory->define(Gallereya::class, function (Faker $faker) {
     $title =  $faker->sentence($nbWords = 4, $variableNbWords = true);  // Random task title
     $slug = Str::slug($title);
-    
+
 
     return [
         'title' => $title,
@@ -31,15 +31,18 @@ $factory->define(Gallereya::class, function (Faker $faker) {
             '/storage/photos/1/testlashtirish/portfolio-list-12.jpg',
             '/storage/photos/1/testlashtirish/portfolio-list-13.jpg',
             '/storage/photos/1/testlashtirish/portfolio-list-14.jpg',
-         
-            
+
+
             ]),
         'desc' => $faker->text,
+        'familya_ism' => $faker->name,
+        'count' => '0',
+
         'addres' => $faker->word,
         'tell' => $faker->tollFreePhoneNumber,
         'user_id' => User::all()->random()->id,
         'category_id' => GallereyaCategory::all()->random()->id,
-        
+
         'deleted_at' => null,
         'created_at' => $faker->date('Y-m-d H:i:s'),
         'updated_at' => $faker->date('Y-m-d H:i:s')

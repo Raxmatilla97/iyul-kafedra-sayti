@@ -13,6 +13,7 @@ use App\Models\Elonlar;
 use App\Models\VideoBanner;
 use App\Models\CounterSetting;
 use App\Models\YangiliklarBolimlari;
+use App\Models\GallereyaCategory;
 
 use DB;
 
@@ -204,6 +205,63 @@ class IndexController extends Controller
 
     }
 
+
+    public function gallereyShow($slug)
+    {
+
+        $gallereya = Gallereya::where('slug',$slug)->firstOrFail();
+        /* *********************************
+            // Kiruvchilarni hisoblash.
+        ********************************** */
+        $count = $gallereya->id;
+
+        $blogKey = 'gallereya' . $count;
+
+        if (!Session::has($blogKey)) {
+            Gallereya::where('id', $count)->increment('count');
+            Session::put($blogKey, 1);
+        }
+
+        /* *********************************
+            // Eng ko'p ko'rilgan yangiliklar
+        ********************************** */
+        $popular = Gallereya::all()->sortByDesc('count')->take(6);
+
+
+        /* ********************************************
+            // Bitta oldingi va Bitta keyingi postlar
+        ********************************************* */
+
+        $oldingisi = Gallereya::where('id', '<', $gallereya->id)->orderBy('id','desc')->first();
+        $keyingisi = Gallereya::where('id', '>', $gallereya->id)->orderBy('id')->first();
+
+
+        /* ********************************************
+           // So'ngi yangiliklar va uni nechtaligi
+       ********************************************* */
+
+
+
+        if(!$gallereya)
+        {
+            // Keyinchalik error 404 sahifa qilingach o'tqaziladi.
+            return redirect('/')->withErrors("Bunday Gallereya topilmadi.");
+        }
+
+
+        return view('frontend.gallereya.show',
+            compact(
+
+                'popular',
+                'oldingisi',
+                'keyingisi',
+
+                'gallereya'
+            ));
+
+    }
+
+
     public function yangilikBolimlari($slug){
 
         $yangilikBolimlar = YangiliklarBolimlari::where('slug',$slug)->all();
@@ -218,15 +276,33 @@ class IndexController extends Controller
 
     public function yangiliklar(){
 
-
-
-        $yangiliklar = Yangiliklar::where('active', '1')->latest()->orderBy("created_at", 'desc')->paginate(4);
+        $yangiliklar = Yangiliklar::where('active', '1')->latest()->orderBy("created_at", 'desc')->paginate(9);
 
         //dd($yangilikBolimlar);
 
         return view('frontend.yangiliklar.list', compact('yangiliklar'))->with('i',(request()->input('page', 1) -1) *5);
 
 
+
+    }
+
+    public function elonlar(){
+
+        $elonlar = Elonlar::latest()->orderBy("created_at", 'desc')->paginate(9);
+
+        //dd($yangilikBolimlar);
+
+        return view('frontend.elonlar.list', compact('elonlar'))->with('i',(request()->input('page', 1) -1) *5);
+
+    }
+
+    public function gallereya(){
+
+        $elonlar = Gallereya::latest()->orderBy("created_at", 'desc')->paginate(9);
+
+        //dd($yangilikBolimlar);
+
+        return view('frontend.elonlar.list', compact('elonlar'))->with('i',(request()->input('page', 1) -1) *5);
 
     }
 }

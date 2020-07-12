@@ -32,13 +32,16 @@ Route::group(['prefix' => '/'], function () {
         Route::group(['prefix' => 'yangiliklar'], function () {
             Route::get('/', 'IndexController@yangiliklar')->name('yangiliklar');
             Route::get('/{slug}', 'IndexController@yangilikShow')->where('slug', '[A-Za-z0-9-_]+')->name('index.yangiliklar');
-
-
         });
 
 
-        Route::group(['prefix' => 'elonlar'], function () {
+        Route::group(['prefix' => 'gallereya'], function () {
+            Route::get('/', 'IndexController@gallereya')->name('gallereya.list');
+            Route::get('{slug}', 'IndexController@gallereyShow')->where('slug', '[A-Za-z0-9-_]+')->name('index.gallerey');
+        });
 
+        Route::group(['prefix' => 'elonlar'], function () {
+            Route::get('/', 'IndexController@elonlar')->name('elonlar.list');
             Route::get('{slug}', 'IndexController@elonlarShow')->where('slug', '[A-Za-z0-9-_]+')->name('index.elonlar');
         });
 

@@ -26,7 +26,10 @@ class GallereyaRepository extends BaseRepository
         'addres',
         'tell',
         'user_id',
-       
+        'familya_ism',
+        'count',
+        'category_id'
+
     ];
 
     /**
