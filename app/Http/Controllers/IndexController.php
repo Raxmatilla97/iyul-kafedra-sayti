@@ -298,11 +298,11 @@ class IndexController extends Controller
 
     public function gallereya(){
 
-        $elonlar = Gallereya::latest()->orderBy("created_at", 'desc')->paginate(9);
+        $gallereya = Gallereya::latest()->orderBy("created_at", 'desc')->paginate(15);
 
         //dd($yangilikBolimlar);
 
-        return view('frontend.elonlar.list', compact('elonlar'))->with('i',(request()->input('page', 1) -1) *5);
+        return view('frontend.gallereya.list', compact('gallereya'))->with('i',(request()->input('page', 1) -1) *5);
 
     }
 }
